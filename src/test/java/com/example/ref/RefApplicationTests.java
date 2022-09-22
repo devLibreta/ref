@@ -8,6 +8,7 @@ class RefApplicationTests {
 
     @Test
     void contextLoads() {
+        System.out.println("hello TEST");
     }
 
 }

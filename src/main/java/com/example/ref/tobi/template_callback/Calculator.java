@@ -1,4 +1,4 @@
-package springbook.learningtest.template;
+package com.example.ref.tobi.template_callback;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Calculator {
 	public Integer calcSum(String filepath) throws IOException {
-		LineCallback<Integer> sumCallback = 
+		LineCallback<Integer> sumCallback =
 			new LineCallback<Integer>() {
 				public Integer doSomethingWithLine(String line, Integer value) {
 					return value + Integer.valueOf(line);
