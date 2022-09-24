@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @RequiredArgsConstructor
 //@RequestMapping("/checklist")
@@ -39,6 +41,14 @@ public class JpaController {
         member.setTeam(team);
         memberRepository.save(member);
 
-        return new ResponseEntity<>(team.getName(), HttpStatus.OK);
+        // result 객체의 존재여부 확인 후 내용을 get 해서 출력한다.
+        Optional<Member> result =  memberRepository.findById(1L);
+        result.ifPresent(System.out::println); // 아래와 동일한 기능
+//        if(result.isPresent()){
+//            System.out.println(result.get());
+//        }
+
+
+        return new ResponseEntity<>("성공", HttpStatus.OK);
     }
 }
