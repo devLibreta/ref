@@ -35,15 +35,17 @@ public class OptionalTest {
         // 2. 값이 들어간 옵셔널 객체를 리턴하여 메소드 체이닝을 이어가는 메소드
 
             // .filter
-            // 값이 null이면 empty객체, 있다면 람다식(return 값 = boolean) 통과 객체를 리턴.
-            // 람다식이 null이면 NPE를 던진다.
+            // 넘어온 옵셔널 객체의 값이 있고, 람다식 결과가 true이면 넘어온 객체를 그대로 리턴
+            // 객체의 값이 없거나, 람다식 결과가 false 이면 옵셔널 empty 객체를 리턴
+            // 람다식이 null 이면 NPE를 던진다.
             System.out.println(
                     optionalOf.filter(e -> e.startsWith("optional") )
-            ); ; // Optional[optionalString]
+            ); // Optional[optionalString]
 
             // .map
-            // 값이 null이면 empty객체, 있는 경우 람다식 결과 옵셔널 객체를 리턴.
-            // 람다식이 Null이면 NPE를 던진다.
+            // 넘어온 옵셔널 객체의 값이 있으면, 람다식 결과가 옵셔널 객체를 리턴한다.
+            // 람다식 결과 값이 null이면 empty객체
+            // 람다식이 Null 이면 NPE를 던진다.
             System.out.println(
                     optionalOf.map(String::toUpperCase)
             ); // Optional[OPTIONALSTRING]
@@ -52,6 +54,7 @@ public class OptionalTest {
             // 옵셔널 객체의 값이 옵셔널 객체일 경우에 사용하는 map
             // ** 결국 map이나 flatMap이나 옵셔널의 타입과 값을 바꾸기 위해 사용한다.
             System.out.println(
+                    // Optional<String>을 Optional<Integer>로 변경함.
                 optionalOf.flatMap((e)-> Optional.of(e.length()))
             ); // Optional[14]
 
@@ -59,7 +62,7 @@ public class OptionalTest {
 
         // 3. 옵셔널 객체 안의 값을 리턴하여 메소드 체이닝을 끝내는 메소드
 
-            // .get : 옵셔널에 값이 있다면 그 값, null이면 예외를 던진다.
+            // .get : 옵셔널에 값이 있다면 그 값, null 이면 예외를 던진다.
             System.out.println("get() : "+ optionalOf.get()); // optionalString
 
             // .isPresent : 옵셔널에 값이 있다면 true 없으면 false
@@ -74,15 +77,15 @@ public class OptionalTest {
             ); // method reference ver
 
             // .orElse
+            // 옵셔널 객체에 값이 없다면 other(param 값)을 리턴한다.
             // 옵셔널 객체에 값이 있다면 그 값을 리턴.
-            // 객체 값이 null인 경우 지정된 값을 넣고 그 값을 리턴한다.
             System.out.println("orElse() : "+
                 optionalNullableWithNull.orElse("null 옵셔널 객체")
             ); // null 옵셔널 객체
 
             // .orElseGet
+            // 옵셔널 객체에 값이 없다면 other(param 값 또는 내부함수 결과 값)을 리턴한다.
             // 옵셔널 객체에 값이 있다면 그 값을 리턴.
-            // 객체 값이 null인 경우에는 내부 함수 결과값을 리턴.
             System.out.println("orElseGet() : "+
                 optionalNullableWithNull.orElseGet(()->"defaultValue")
             ); // defaultValue
