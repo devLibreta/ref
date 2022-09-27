@@ -1,5 +1,6 @@
 package com.example.ref.security_jwt.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,22 +9,31 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터체인에 등록이 된다.
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) // 메소드 어노테이션 활성화
-public class SecurityConfig extends WebSecurityConfiguration {
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations()));
-    }
+// WebSecurityConfigureAdapter deprecated since spring 5.7.0-M2 .
+public class SecurityConfig {
 
+    @Value("${spring.security.debug:false}")
+    boolean securityDebug;
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.debug(securityDebug)
+                .ignoring()
+                .antMatchers("/css/**", "/js/**", "/img/**", "/lib/**", "/favicon.ico")
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
 
     @Bean
@@ -100,6 +110,7 @@ public class SecurityConfig extends WebSecurityConfiguration {
         httpSecurity
                 // 세션 기능이 작동되게 한다.
                 .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션을 stateless(세션을 사용하지 않겠다) 하게 만들겠다.
                 // 최대 허용가능한 세션 수
                 .maximumSessions(1)
                 // 허용 세션 수가 초과될 경우 처리.

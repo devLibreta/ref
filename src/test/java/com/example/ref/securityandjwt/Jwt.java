@@ -1,4 +1,4 @@
-package com.example.securityandjwt;
+package com.example.ref.securityandjwt;
 
 
 import org.springframework.boot.test.context.SpringBootTest;

@@ -43,4 +43,5 @@ public class SecurityController {
     public User test3(@PathVariable("id") int id ){
         return securityService.findById(id);
     }
+
 }
