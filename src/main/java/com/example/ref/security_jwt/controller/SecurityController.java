@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.security.RolesAllowed;
 
 @RestController
+@RequestMapping(value="/security")
 public class SecurityController {
     private final SecurityService securityService;
 

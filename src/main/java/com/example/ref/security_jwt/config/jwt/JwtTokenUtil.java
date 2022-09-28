@@ -1,4 +1,4 @@
-package com.example.ref.security_jwt.jwt;
+package com.example.ref.security_jwt.config.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
